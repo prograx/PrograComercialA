@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields import IntegerField
 
 from django.utils import timezone
 
@@ -11,6 +12,7 @@ class Publicacion(models.Model):
             default=timezone.now)
     fecha_publicacion = models.DateTimeField(
             blank=True, null=True)
+   
 
     def publicar(self):
         self.fecha_publicacion = timezone.now()
@@ -21,3 +23,15 @@ class Publicacion(models.Model):
 
     class Meta:        
         verbose_name_plural = 'Publicaciones'
+
+
+class Carro (models.Model):
+    marca = models.TextField()
+    placa = models.CharField(max_length= 10)
+
+    def __str__(self):
+        return (self.placa + '--' + self.marca)
+
+class Tiket (models.Model):
+    numero = IntegerField()
+    placa = models.ForeignKey('Carro', on_delete=models.CASCADE)
